@@ -72,13 +72,13 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:if="${now-1!=0}">
-                    <a class="page-link" th:href="@{/list(page = 0,searchKeyword = ${param.searchKeyword}),category=${param.category}}"
+                    <a class="page-link" th:href="@{/list(page = 0,search = ${param.search},category=${param.category})}"
                         aria-label="Previous">
                         <span aria-hidden="true">처음으로</span>
                     </a>
                 </li>
                 <li class="page-item" th:if="${now-1!=0}">
-                    <a class="page-link" th:href="@{/list(page = ${now-2},searchKeyword = ${param.searchKeyword},category=${param.category})}"
+                    <a class="page-link" th:href="@{/list(page = ${now-2},search = ${param.search},category=${param.category})}"
                         aria-label="Previous">
                         <span aria-hidden="true">이전</span>
                     </a>
@@ -86,19 +86,19 @@
 
                 <li class="page-item" th:each="page : ${#numbers.sequence(start,end)}">
                     <a th:if="${page != now}" class="page-link"
-                        th:href="@{/list(page = ${page-1},searchKeyword = ${param.searchKeyword},category=${param.category})}"
+                        th:href="@{/list(page = ${page-1},search = ${param.search},category=${param.category})}"
                         th:text="${page}"></a>
                     <a th:if="${page == now}" class="page-link" style="background-color: #0d6efd; color: #fff;"
                         th:text="${page}"></a>
                 </li>
                 <li class="page-item" th:if="${now-1!=end-1}">
-                    <a class="page-link" th:href="@{/list(page = ${now},searchKeyword = ${param.searchKeyword},category=${param.category})}"
+                    <a class="page-link" th:href="@{/list(page = ${now},search = ${param.search},category=${param.category})}"
                         aria-label="Next">
                         <span aria-hidden="true">다음</span>
                     </a>
                 </li>
                 <li class="page-item" th:if="${now-1!=end-1}">
-                    <a class="page-link" th:href="@{/list(page = ${end-1},searchKeyword = ${param.searchKeyword},category=${param.category})}"
+                    <a class="page-link" th:href="@{/list(page = ${end-1},search = ${param.search},category=${param.category})}"
                         aria-label="Next">
                         <span aria-hidden="true">마지막으로</span>
                     </a>

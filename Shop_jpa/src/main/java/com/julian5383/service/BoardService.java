@@ -2,20 +2,16 @@ package com.julian5383.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.julian5383.entity.Board;
-import com.julian5383.entity.Comment;
 import com.julian5383.repository.BoardRepository;
-import com.julian5383.repository.CommentRepository;
 
 @Service
 public class BoardService {
