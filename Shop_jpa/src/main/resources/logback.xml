@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="LOG_PATH" value="E:/tmp/logs" />
+	<!-- log정보를 어디로 보낼지 결정, 폴더경로생성 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	<!-- 이름을 stdout으로 설정, 터미널로 로그를 쏨 -->
+		<target>System.out</target>
+		<encoder>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] [%-5level] %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<!-- 파일로 쏨 -->
+		<file>${LOG_PATH}/logback.log</file>
+		<append>true</append>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] [%-5level] %logger{35} - %msg%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+		<!-- info레벨부터 출력 -->
+        	<level>INFO</level>
+    	</filter>
+	<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+	<!-- 크기와 시간을 베이스로 롤링을 한다. -->
+		<fileNamePattern>${LOG_PATH}/logback.%d{yyyy-MM-dd}.%i.log.zip
+		<!-- 하루가 바뀌면 해당 zip파일을 출력 -->
+		</fileNamePattern>
+		<maxFileSize>5MB</maxFileSize>
+		<maxHistory>30</maxHistory>
+		<!-- 30일이 지난 zip파일을 지우기 -->
+	</rollingPolicy>
+	</appender>
+
+
+	<root level="debug">
+		<appender-ref ref="ROLLING" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

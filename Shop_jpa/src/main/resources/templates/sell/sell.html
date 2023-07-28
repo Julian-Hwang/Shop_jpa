@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head th:insert="./_inc/title.html">
+
+</head>
+
+<body>
+    <header th:insert="./_inc/header.html">
+
+    </header>
+    <form>
+        <table class="table" align="center">
+            <thead class="table-dark">
+                <tr align="center">
+                    <th>유형</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>작성자</th>
+                    <th>일자</th>
+                    <th>조회수</th>
+                    <th>거래여부</th>
+                    <th>사진</th>
+                </tr>
+            </thead>
+            <tbody th:if="${#strings.isEmpty(board)}">
+                <tr>
+                    <td>
+                        <p align="center">
+                            <b><span>등록된 글이 없습니다.</span></b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody th:unless="${#strings.isEmpty(board)}">
+                <tr align="center" th:each="board:${board}">
+                    <td th:if="${board.buyornot == 'S'}" width="10%">판매</td>
+                    <td th:if="${board.buyornot == 'B'}" width="10%">구매</td>
+                    <td width="10%" th:text="${board.title}"></td><!--변수는 대괄호로-->
+                    <td align="left" width="30%">
+                        <a th:href="@{/view(id=${board.sell_no})}" th:text="${board.content}">
+                        </a>
+                    </td>
+                    <td width="10%" th:text="${board.writer}"></td>
+                    <td width="10%" th:text="${#dates.format(board.writedate,'yyyy-MM-dd')}"></td>
+                    <td width="10%" th:text="${board.view}"></td>
+                    <td width="10%" th:text="${board.finornot}">
+                    <td width="10%">
+                        <img width="100" height="100" th:if="${board.photo_url}" th:src="@{${board.photo_url}}">
+                        <img class="img-thumbnail" th:unless="${board.photo_url}" src="/image/white.png">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form id="search" method="get" th:action="@{/list}" role="search">
+            <div class="input-group mb-3">
+                <select class="form-select" name="category" aria-label="Default select example">
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                    <option value="writer">작성자</option>
+                </select>
+                <input type="text" name="search" class="form-control" placeholder="Search"
+                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">검색</button>
+            </div>
+        </form>
+
+        <div align="right">
+            <button type="button" class="btn btn-danger" onClick="location.href='/write'">상품등록</button>
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:if="${now-1!=0}">
+                    <a class="page-link" th:href="@{/list(page = 0,searchKeyword = ${param.searchKeyword}),category=${param.category}}"
+                        aria-label="Previous">
+                        <span aria-hidden="true">처음으로</span>
+                    </a>
+                </li>
+                <li class="page-item" th:if="${now-1!=0}">
+                    <a class="page-link" th:href="@{/list(page = ${now-2},searchKeyword = ${param.searchKeyword},category=${param.category})}"
+                        aria-label="Previous">
+                        <span aria-hidden="true">이전</span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:each="page : ${#numbers.sequence(start,end)}">
+                    <a th:if="${page != now}" class="page-link"
+                        th:href="@{/list(page = ${page-1},searchKeyword = ${param.searchKeyword},category=${param.category})}"
+                        th:text="${page}"></a>
+                    <a th:if="${page == now}" class="page-link" style="background-color: #0d6efd; color: #fff;"
+                        th:text="${page}"></a>
+                </li>
+                <li class="page-item" th:if="${now-1!=end-1}">
+                    <a class="page-link" th:href="@{/list(page = ${now},searchKeyword = ${param.searchKeyword},category=${param.category})}"
+                        aria-label="Next">
+                        <span aria-hidden="true">다음</span>
+                    </a>
+                </li>
+                <li class="page-item" th:if="${now-1!=end-1}">
+                    <a class="page-link" th:href="@{/list(page = ${end-1},searchKeyword = ${param.searchKeyword},category=${param.category})}"
+                        aria-label="Next">
+                        <span aria-hidden="true">마지막으로</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </form>
+</body>
+
+</html>
